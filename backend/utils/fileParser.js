@@ -1,4 +1,4 @@
-import pdf from "pdf-parse";
+import { PDFParse as pdf } from "pdf-parse";
 import mammoth from "mammoth";
 
 export const parseResume = async (file) => {
