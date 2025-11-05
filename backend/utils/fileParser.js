@@ -8,7 +8,7 @@ export const parseResume = async (file) => {
 
         if (fileExtension === "pdf") {
             const dataBuffer = file.buffer;
-            const data = await pdf(dataBuffer);
+            const data = new pdf(dataBuffer);
             text = data.text;
         } else if (fileExtension === "docx" || fileExtension === "doc") {
             const result = await mammoth.extractRawText({
