@@ -8,8 +8,8 @@ export const parseResume = async (file) => {
 
         if (fileExtension === "pdf") {
             const dataBuffer = file.buffer;
-            const data = new pdf(dataBuffer);
-            text = data.text;
+            const data = await new pdf(dataBuffer);
+            text = data?.text;
         } else if (fileExtension === "docx" || fileExtension === "doc") {
             const result = await mammoth.extractRawText({
                 buffer: file.buffer,
@@ -21,7 +21,7 @@ export const parseResume = async (file) => {
             );
         }
 
-        text = text.replace(/\s+/g, " ").trim();
+        text = text?.replace(/\s+/g, " ")?.trim();
 
         if (text.length < 50) {
             throw new Error(
