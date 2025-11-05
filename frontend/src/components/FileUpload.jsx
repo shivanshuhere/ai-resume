@@ -35,8 +35,8 @@ const FileUpload = ({ onFileSelect, selectedFile, onRemove }) => {
             {!selectedFile ? (
                 <div
                     className={`relative border-2 border-dashed rounded-lg p-8 text-center transition-colors ${dragActive
-                            ? 'border-primary-600 bg-primary-50'
-                            : 'border-gray-300 hover:border-primary-400'
+                            ? 'border-sky-500 bg-sky-500/10'
+                            : 'border-slate-700 hover:border-sky-500/50'
                         }`}
                     onDragEnter={handleDrag}
                     onDragLeave={handleDrag}
@@ -49,28 +49,28 @@ const FileUpload = ({ onFileSelect, selectedFile, onRemove }) => {
                         onChange={handleChange}
                         className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                     />
-                    <Upload className="mx-auto h-12 w-12 text-gray-400" />
-                    <p className="mt-2 text-sm text-gray-600">
+                    <Upload className="mx-auto h-12 w-12 text-sky-400" />
+                    <p className="mt-2 text-sm text-slate-300">
                         Drag and drop your resume here, or click to browse
                     </p>
-                    <p className="mt-1 text-xs text-gray-500">PDF or DOCX (Max 5MB)</p>
+                    <p className="mt-1 text-xs text-slate-400">PDF or DOCX (Max 5MB)</p>
                 </div>
             ) : (
-                <div className="flex items-center justify-between p-4 bg-primary-50 border border-primary-200 rounded-lg">
+                <div className="flex items-center justify-between p-4 bg-sky-950/50 border border-sky-900/50 rounded-lg">
                     <div className="flex items-center space-x-3">
-                        <FileText className="h-8 w-8 text-primary-600" />
+                        <FileText className="h-8 w-8 text-sky-400" />
                         <div>
-                            <p className="text-sm font-medium text-gray-900">{selectedFile.name}</p>
-                            <p className="text-xs text-gray-500">
+                            <p className="text-sm font-medium text-slate-200">{selectedFile.name}</p>
+                            <p className="text-xs text-slate-400">
                                 {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
                             </p>
                         </div>
                     </div>
                     <button
                         onClick={onRemove}
-                        className="p-1 hover:bg-red-100 rounded-full transition-colors"
+                        className="p-1 hover:bg-red-900/30 rounded-full transition-colors"
                     >
-                        <X className="h-5 w-5 text-red-600" />
+                        <X className="h-5 w-5 text-red-400" />
                     </button>
                 </div>
             )}
