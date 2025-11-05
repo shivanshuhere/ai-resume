@@ -1,5 +1,6 @@
 import { PDFDocument } from "pdf-lib";
 import mammoth from "mammoth";
+import { PDFParse } from "pdf-parse";
 
 export const parseResume = async (file) => {
     try {
@@ -7,11 +8,9 @@ export const parseResume = async (file) => {
         let text = "";
 
         if (fileExtension === "pdf") {
-            const pdfParseModule = await import("pdf-parse");
-            const pdfParse = pdfParseModule.default || pdfParseModule;
             const pdfDoc = await PDFDocument.load(file.buffer);
             const pdfBytes = await pdfDoc.save();
-            const data = await pdfParse(Buffer.from(pdfBytes));
+            const data = await PDFParse(Buffer.from(pdfBytes));
             text = data.text;
         } else if (fileExtension === "docx" || fileExtension === "doc") {
             const result = await mammoth.extractRawText({
