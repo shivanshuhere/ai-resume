@@ -21,7 +21,11 @@ export const parseResume = async (file) => {
             );
         }
 
-        text = text?.replace(/\s+/g, " ")?.trim();
+        if (!text) {
+            throw new Error("Could not extract text from the document");
+        }
+
+        text = text.replace(/\s+/g, " ").trim();
 
         if (text.length < 50) {
             throw new Error(
