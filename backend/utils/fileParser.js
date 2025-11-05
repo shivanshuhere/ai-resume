@@ -1,6 +1,6 @@
 import { PDFDocument } from "pdf-lib";
 import mammoth from "mammoth";
-import PDFParser from "pdf-parse"; // Changed import
+import { PDFParse } from "pdf-parse";
 
 export const parseResume = async (file) => {
     try {
@@ -8,15 +8,10 @@ export const parseResume = async (file) => {
         let text = "";
 
         if (fileExtension === "pdf") {
-            // Option 1: Use pdf-parse directly without pdf-lib
-            const data = await PDFParser(file.buffer);
+            const pdfDoc = await PDFDocument.load(file.buffer);
+            const pdfBytes = await pdfDoc.save();
+            const data = await new PDFParse(Buffer.from(pdfBytes));
             text = data.text;
-
-            // Option 2: If you need pdf-lib for manipulation, use it like this:
-            // const pdfDoc = await PDFDocument.load(file.buffer);
-            // const pdfBytes = await pdfDoc.save();
-            // const data = await PDFParser(Buffer.from(pdfBytes));
-            // text = data.text;
         } else if (fileExtension === "docx" || fileExtension === "doc") {
             const result = await mammoth.extractRawText({
                 buffer: file.buffer,
@@ -42,6 +37,6 @@ export const parseResume = async (file) => {
 
         return text;
     } catch (error) {
-        throw new Error(`File parsing error: ${error.message}`); // Fixed template literal syntax
+        throw new Error(`File parsing error: ${error.message}`);
     }
 };
