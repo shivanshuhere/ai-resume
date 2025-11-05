@@ -19,7 +19,7 @@ const Dashboard = () => {
 
     const fetchAnalyses = async () => {
         try {
-            const response = await api.get('/resume/my-analyses');
+            const response = await api.get('api/resume/my-analyses');
             const data = response.data.data;
             setAnalyses(data);
 

@@ -31,7 +31,7 @@ const AnalysisDetail = () => {
 
     const fetchAnalysis = async () => {
         try {
-            const response = await api.get(`/resume/analysis/${id}`);
+            const response = await api.get(`api/resume/analysis/${id}`);
             setAnalysis(response.data.data);
             if (response.data.data.matchScore) {
                 setMatchResult({
@@ -51,7 +51,7 @@ const AnalysisDetail = () => {
 
         setMatchLoading(true);
         try {
-            const response = await api.post(`/resume/match-job/${id}`, { jobDescription });
+            const response = await api.post(`api/resume/match-job/${id}`, { jobDescription });
             setMatchResult(response.data.data);
         } catch (error) {
             console.error('Job matching failed:', error);
@@ -65,7 +65,7 @@ const AnalysisDetail = () => {
 
         setDeleteLoading(true);
         try {
-            await api.delete(`/resume/analysis/${id}`);
+            await api.delete(`api/resume/analysis/${id}`);
             navigate('/dashboard');
         } catch (error) {
             console.error('Failed to delete analysis:', error);
