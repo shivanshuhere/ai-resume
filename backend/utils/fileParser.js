@@ -27,7 +27,7 @@ export const parseResume = async (file) => {
 
         text = text.replace(/\s+/g, " ").trim();
 
-        if (text.length < 50) {
+        if (text?.length < 50) {
             throw new Error(
                 "Resume content is too short or could not be extracted"
             );
