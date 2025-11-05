@@ -1,4 +1,3 @@
-import pdfParse from "pdf-parse/lib/pdf-parse.js";
 import { PDFDocument } from "pdf-lib";
 import mammoth from "mammoth";
 
@@ -8,6 +7,7 @@ export const parseResume = async (file) => {
         let text = "";
 
         if (fileExtension === "pdf") {
+            const pdfParse = (await import("pdf-parse")).default;
             const pdfDoc = await PDFDocument.load(file.buffer);
             const pdfBytes = await pdfDoc.save();
             const data = await pdfParse(Buffer.from(pdfBytes));
@@ -27,12 +27,6 @@ export const parseResume = async (file) => {
             throw new Error("Could not extract text from the document");
         }
         text = text.replace(/\s+/g, " ").trim();
-        if (text?.length < 50) {
-            throw new Error(
-                "Resume content is too short or could not be extracted"
-            );
-        }
-
         return text;
     } catch (error) {
         throw new Error(`File parsing error: ${error.message}`);
