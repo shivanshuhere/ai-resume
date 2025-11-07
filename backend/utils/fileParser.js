@@ -1,6 +1,5 @@
-import { PDFDocument } from "pdf-lib";
+import pdf from "pdf-parse";
 import mammoth from "mammoth";
-import { PDFParse } from "pdf-parse";
 
 export const parseResume = async (file) => {
     try {
@@ -8,9 +7,8 @@ export const parseResume = async (file) => {
         let text = "";
 
         if (fileExtension === "pdf") {
-            const pdfDoc = await PDFDocument.load(file.buffer);
-            const pdfBytes = await pdfDoc.save();
-            const data = await new PDFParse(Buffer.from(pdfBytes));
+            const dataBuffer = file.buffer;
+            const data = await pdf(dataBuffer);
             text = data.text;
         } else if (fileExtension === "docx" || fileExtension === "doc") {
             const result = await mammoth.extractRawText({
@@ -23,13 +21,9 @@ export const parseResume = async (file) => {
             );
         }
 
-        if (!text) {
-            throw new Error("Could not extract text from the document");
-        }
-
         text = text.replace(/\s+/g, " ").trim();
 
-        if (text?.length < 50) {
+        if (text.length < 50) {
             throw new Error(
                 "Resume content is too short or could not be extracted"
             );
