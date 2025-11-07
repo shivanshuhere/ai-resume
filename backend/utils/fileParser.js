@@ -7,23 +7,22 @@ export const parseResume = async (file) => {
         let text = "";
 
         if (fileExtension === "pdf") {
-            const dataBuffer = file.buffer;
-            const data = new pdf({ data: dataBuffer });
-            text = data.text;
-        } else if (fileExtension === "docx" || fileExtension === "doc") {
+            if (!file.buffer) throw new Error("Uploaded PDF has no data");
+            const parser = new pdf({ data: file.buffer });
+            const data = await parser.getText();
+            text = data.text.replace(/\s+/g, " ").trim();
+            console.log("text", text);
+        } else if (fileExtension === "docx") {
             const result = await mammoth.extractRawText({
                 buffer: file.buffer,
             });
-            text = result.value;
+            text = result && result.value ? result.value : "";
         } else {
             throw new Error(
                 "Unsupported file format. Please upload PDF or DOCX"
             );
         }
-
-        text = text.replace(/\s+/g, " ").trim();
-
-        if (text.length < 50) {
+        if (!text || text.length < 50) {
             throw new Error(
                 "Resume content is too short or could not be extracted"
             );
