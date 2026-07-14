@@ -10,5 +10,14 @@ jobs :
     runs-on : ubuntu-latest
 
     steps :
-      - name : hello
-        run : echo "hello github actions"
+      - name : checkout
+        uses : actions/checkout@v4
+        
+      - name : show current directory
+        run : pwd
+
+      - name : List Files
+        run : ls -la
+
+      - name : check node version
+        run : node --version
